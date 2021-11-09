@@ -4,6 +4,7 @@
 package it.unibo.oop.lab.nesting1;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import it.unibo.oop.lab.socialnetwork.SocialNetworkUserImpl;
@@ -136,15 +137,21 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
      * with its bare name.
      */
     public static final class Sport {
-        /*
-         * TODO
-         * 
-         * Redefine equals so that two sports are equal only if they feature the
-         * very same name. Remember that you must also redefine hashCode()!
-         */
-        @Override
-        public boolean equals(final Object o) {
-            return false;
-        }
+        
+    	private String name;
+    	
+        public Sport(String name) {
+			super();
+			this.name = name;
+		}
+
+		public int hashCode() {
+			return Objects.hash(name);
+		}
+
+		public boolean equals(final Sport sport) {
+			return this.name.hashCode() == sport.name.hashCode();
+		}
+		
     }
 }
