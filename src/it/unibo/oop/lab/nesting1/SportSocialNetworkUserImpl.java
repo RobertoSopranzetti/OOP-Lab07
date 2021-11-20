@@ -28,40 +28,27 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
     /**
      * Static {@link Sport} constant.
      */
-    public static final Sport SOCCER;
+    public static final Sport SOCCER = new Sport("Football");
     /**
      * Static {@link Sport} constant.
      */
-    public static final Sport F1;
+    public static final Sport F1 = new Sport("Formula 1");
     /**
      * Static {@link Sport} constant.
      */
-    public static final Sport MOTOGP;
+    public static final Sport MOTOGP = new Sport("Moto GP");
     /**
      * Static {@link Sport} constant.
      */
-    public static final Sport VOLLEY;
+    public static final Sport VOLLEY = new Sport("Volleyball");
     /**
      * Static {@link Sport} constant.
      */
-    public static final Sport BASKET;
+    public static final Sport BASKET = new Sport("Basketball");
     /**
      * Static {@link Sport} constant.
      */
-    public static final Sport BIKE;
-
-    /*
-     * TODO: initialize properly these sports
-     */
-    static {
-        SOCCER = null;
-        F1 = null;
-        MOTOGP = null;
-        VOLLEY = null;
-        BASKET = null;
-        BIKE = null;
-    }
-
+    public static final Sport BIKE = new Sport("Road Biking");
     /**
      * Field meant to keep track of the set of sports followed/done by a user.
      */
@@ -113,9 +100,8 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
      * @param sport
      *            a sport followed/done by the user
      */
-    // TODO
     public void addSport(final Sport sport) {
-
+    	this.sports.add(sport);
     }
 
     /**
@@ -127,7 +113,7 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
      */
     // TODO
     public boolean hasSport(final Sport s) {
-        return false;
+        return this.sports.contains(s);
     }
 
     /*
@@ -138,20 +124,36 @@ public class SportSocialNetworkUserImpl<U extends User> extends SocialNetworkUse
      */
     public static final class Sport {
         
-    	private String name;
+    	private final String name;
+    	private int hash;
     	
         public Sport(String name) {
 			super();
-			this.name = name;
+			this.name = Objects.requireNonNull(name, "The sport's name can't be null");
 		}
 
+		@Override
+		/**
+		 * {@inheritDoc}
+		 */
 		public int hashCode() {
-			return Objects.hash(name);
+			if (hash == 0) {
+                hash = name.hashCode();
+            }
+            return hash;
 		}
 
-		public boolean equals(final Sport sport) {
-			return this.name.hashCode() == sport.name.hashCode();
+		@Override
+		/**
+		 * {@inheritDoc}
+		 */
+		public boolean equals(final Object obj) {
+			if (obj == null)
+				return false;
+			if (getClass().equals(obj.getClass())) {
+				return name.equals(((Sport) obj).name);
+			}
+			return false;		
 		}
-		
     }
 }
